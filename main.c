@@ -39,21 +39,20 @@ void ADC_Init()
 
 unsigned int ADC_Read(unsigned char channel)
 {
-  if(channel > 7)              //Channel range is 0 ~ 7
-    return 0;
-  
-  ADCON0 = 0b10000001;         //Clearing channel selection bits
-  ADCON0 |= channel<<2;        //Setting channel selection bits
-  __delay_ms(2);               //Acquisition time to charge hold capacitor
-  GO_nDONE = 1;                //Initializes A/D conversion
-  while(GO_nDONE) NOP();             //Waiting for conversion to complete
-  return ((ADRESH<<8)+ADRESL); //Return result
+    if(channel > 7) return 0;    //Channel range is 0 ~ 7
+        
+    ADCON0 = 0b10000001;         //Clearing channel selection bits
+    ADCON0 |= channel<<2;        //Setting channel selection bits
+    __delay_ms(2);               //Acquisition time to charge hold capacitor
+    GO_nDONE = 1;                //Initializes A/D conversion
+    while(GO_nDONE) NOP();             //Waiting for conversion to complete
+    return ((ADRESH<<8)+ADRESL); //Return result
 }
 
-int ulitsa = 0, tseh = 0, obratka = 0, kotel = 0;   // переменные для хранения температуры
-char a[16] = ""; // буфер для команд UART
+volatile int ulitsa = 0, tseh = 0, obratka = 0, kotel = 0;   // переменные для хранения температуры
+volatile char a[16] = ""; // буфер для команд UART
+volatile char c;  // символ для работы UART
 int i= 0; // просто счётчик
-char c;  // символ для работы UART
 
 #define obratka_xolodnaya   RC1
 #define peregrev            RC2
@@ -82,10 +81,10 @@ void main(void) {
         
 
         
-        ulitsa = ADC_Read(0)*1000/208;          //Read Analog Channel 0
-        tseh = ADC_Read(1)*1000/208;            //Read Analog Channel 1
+        ulitsa =  ADC_Read(0)*1000/208;          //Read Analog Channel 0
+        tseh =    ADC_Read(1)*1000/208;            //Read Analog Channel 1
         obratka = ADC_Read(2)*1000/208;         //Read Analog Channel 2
-        kotel = ADC_Read(4)*1000/208;           //Read Analog Channel 4
+        kotel =   ADC_Read(4)*1000/208;           //Read Analog Channel 4
         
         //printf("%d|%d|%d|%d|%d\r\n", obratka_xolodnaya, peregrev, ventil, elektro, nasos );
 
