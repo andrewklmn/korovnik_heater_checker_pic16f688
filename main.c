@@ -117,6 +117,14 @@ void interrupt isr(void) {
                         printf("%d|%d|%d|%d|%d\r\n", obratka_xolodnaya, peregrev, ventil, elektro, nasos );
                         //print_to_uart("2\n");
                     };
+                    if (a[2]==' ' && a[3]=='A' && a[4]=='\0') { //AT T  - текущая температура
+                        printf("%d.%d|", ulitsa/10,(ulitsa - (ulitsa/10)*10));
+                        printf("%d.%d|", tseh/10,(tseh - (tseh/10)*10));
+                        printf("%d.%d|", obratka/10,(obratka - (obratka/10)*10));
+                        printf("%d.%d|", kotel/10,(kotel - (kotel/10)*10));
+                        printf("%d|%d|%d|%d|%d\r\n", obratka_xolodnaya, peregrev, ventil, elektro, nasos );
+                        //print_to_uart("2\n");
+                    };
                 }; 
                 // если другой набор данных - игнорируем и не отвечаем
                 a[0] = '\0'; //записываем пустую строку
