@@ -52,7 +52,7 @@ unsigned int ADC_Read(unsigned char channel)
 volatile int ulitsa = 0, tseh = 0, obratka = 0, kotel = 0;   // переменные для хранения температуры
 volatile char a[16] = ""; // буфер для команд UART
 volatile char c;  // символ для работы UART
-int i= 0; // просто счётчик
+volatile int i= 0; // просто счётчик для прерываний
 
 #define obratka_xolodnaya   RC1
 #define peregrev            RC2
@@ -88,7 +88,7 @@ void main(void) {
         
         //printf("%d|%d|%d|%d|%d\r\n", obratka_xolodnaya, peregrev, ventil, elektro, nasos );
 
-        __delay_ms(1000);
+        __delay_ms(500);
         
     };
 };
