@@ -107,6 +107,12 @@ void interrupt isr(void) {
                     if (a[2]=='\0') { // тестовая комманда которая возвращает просто ОК
                         print_to_uart("OK");
                     };
+                    if (a[2]==' ' && a[3]=='H' && a[4]=='\0') { //AT D - описание комант
+                        printf("AT H - this help\r\n");
+                        printf("AT T - print temperature array\r\n");
+                        printf("AT D - print level array\r\n");
+                        printf("AT A - print temperatue/level array\r\n");
+                    };
                     if (a[2]==' ' && a[3]=='T' && a[4]=='\0') { //AT T  - текущая температура
                         printf("%d.%d|", ulitsa/10,(ulitsa - (ulitsa/10)*10));
                         printf("%d.%d|", tseh/10,(tseh - (tseh/10)*10));
@@ -117,7 +123,7 @@ void interrupt isr(void) {
                         printf("%d|%d|%d|%d|%d\r\n", obratka_xolodnaya, peregrev, ventil, elektro, nasos );
                         //print_to_uart("2\n");
                     };
-                    if (a[2]==' ' && a[3]=='A' && a[4]=='\0') { //AT T  - текущая температура
+                    if (a[2]==' ' && a[3]=='A' && a[4]=='\0') { //AT T  - текущая температура и сост. светодиодов
                         printf("%d.%d|", ulitsa/10,(ulitsa - (ulitsa/10)*10));
                         printf("%d.%d|", tseh/10,(tseh - (tseh/10)*10));
                         printf("%d.%d|", obratka/10,(obratka - (obratka/10)*10));
