@@ -39,13 +39,16 @@ void ADC_Init()
 
 unsigned int ADC_Read(unsigned char channel)
 {
+    
     if(channel > 7) return 0;    //Channel range is 0 ~ 7
-        
+    
+    RCIE = 0; //запрещаем прерывания
     ADCON0 = 0b10000001;         //Clearing channel selection bits
     ADCON0 |= channel<<2;        //Setting channel selection bits
     __delay_ms(2);               //Acquisition time to charge hold capacitor
     GO_nDONE = 1;                //Initializes A/D conversion
     while(GO_nDONE) NOP();             //Waiting for conversion to complete
+    RCIE = 1; //разрешаем прерывания
     return ((ADRESH<<8)+ADRESL); //Return result
 }
 
@@ -54,7 +57,7 @@ volatile char a[16] = ""; // буфер для команд UART
 volatile char c;  // символ для работы UART
 volatile int i= 0; // просто счётчик для прерываний
 
-#define obratka_xolodnaya   RC1
+#define obratka_xolodnaya   RC1     // назначение выводов 
 #define peregrev            RC2
 #define ventil              RC3 
 #define elektro             RA3
